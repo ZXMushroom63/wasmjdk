@@ -97,13 +97,15 @@ CFLAGS_VM_VERSION := \
 
 DISABLED_WARNINGS_gcc := array-bounds comment delete-non-virtual-dtor \
     empty-body format-zero-length implicit-fallthrough int-in-bool-context \
-    maybe-uninitialized missing-field-initializers \
+    uninitialized missing-field-initializers \
     shift-negative-value unknown-pragmas unused-but-set-variable \
-    unused-local-typedefs unused-variable
+    unused-local-typedefs unused-variable unused-private-field \
+    tautological-type-limit-compare missing-braces
 
 DISABLED_WARNINGS_clang := delete-non-abstract-non-virtual-dtor missing-braces \
     sometimes-uninitialized unknown-pragmas unused-but-set-variable \
-    unused-function unused-local-typedef unused-private-field unused-variable
+    unused-function unused-local-typedef unused-private-field unused-variable \
+    tautological-type-limit-compare missing-braces
 
 ifneq ($(DEBUG_LEVEL), release)
   # Assert macro gives warning

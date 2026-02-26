@@ -32,7 +32,7 @@
   #else
     #if (defined(__GNUC__) && ((__GNUC__ > 4) || (__GNUC__ == 4) && (__GNUC_MINOR__ > 2))) || __has_attribute(visibility)
       #ifdef ARM
-        #define JDKEXPORT  __attribute__((externally_visible,visibility("default")))
+        #define JDKEXPORT  __attribute__((visibility("default")))
       #else
         #define JDKEXPORT  __attribute__((visibility("default")))
       #endif

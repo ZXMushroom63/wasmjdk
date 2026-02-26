@@ -33,7 +33,7 @@
 #ifndef JNIEXPORT
   #if (defined(__GNUC__) && ((__GNUC__ > 4) || (__GNUC__ == 4) && (__GNUC_MINOR__ > 2))) || __has_attribute(visibility)
     #ifdef ARM
-      #define JNIEXPORT     __attribute__((externally_visible,visibility("default")))
+      #define JNIEXPORT     __attribute__((visibility("default")))
     #else
       #define JNIEXPORT     __attribute__((visibility("default")))
     #endif
@@ -44,7 +44,7 @@
 
 #if (defined(__GNUC__) && ((__GNUC__ > 4) || (__GNUC__ == 4) && (__GNUC_MINOR__ > 2))) || __has_attribute(visibility)
   #ifdef ARM
-    #define JNIIMPORT     __attribute__((externally_visible,visibility("default")))
+    #define JNIIMPORT     __attribute__((visibility("default")))
   #else
     #define JNIIMPORT     __attribute__((visibility("default")))
   #endif

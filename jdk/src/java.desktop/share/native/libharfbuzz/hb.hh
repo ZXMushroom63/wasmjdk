@@ -74,7 +74,7 @@
 #pragma GCC diagnostic error   "-Wimplicit-function-declaration"
 #pragma GCC diagnostic error   "-Winit-self"
 #pragma GCC diagnostic error   "-Winjected-class-name"
-#pragma GCC diagnostic error   "-Wmissing-braces"
+#pragma GCC diagnostic ignore   "-Wmissing-braces"
 #pragma GCC diagnostic error   "-Wmissing-declarations"
 #pragma GCC diagnostic error   "-Wmissing-prototypes"
 #pragma GCC diagnostic error   "-Wnarrowing"
@@ -88,13 +88,14 @@
 #pragma GCC diagnostic error   "-Wstrict-prototypes"
 #pragma GCC diagnostic error   "-Wstring-conversion"
 #pragma GCC diagnostic error   "-Wswitch-enum"
-#pragma GCC diagnostic error   "-Wtautological-overlap-compare"
-#pragma GCC diagnostic error   "-Wuninitialized"
+//#pragma GCC diagnostic error   "-Wtautological-overlap-compare"
+//#pragma GCC diagnostic error   "-Wuninitialized"
 #pragma GCC diagnostic error   "-Wunneeded-internal-declaration"
-#pragma GCC diagnostic error   "-Wunused"
-#pragma GCC diagnostic error   "-Wunused-local-typedefs"
-#pragma GCC diagnostic error   "-Wunused-value"
-#pragma GCC diagnostic error   "-Wunused-variable"
+#pragma GCC diagnostic ignored   "-Wunused"
+#pragma GCC diagnostic ignored   "-Wunused-local-typedefs"
+#pragma GCC diagnostic ignored   "-Wunused-value"
+#pragma GCC diagnostic ignored   "-Wunused-variable"
+#pragma GCC diagnostic ignored   "-Wunused-private-field"
 #pragma GCC diagnostic error   "-Wvla"
 #pragma GCC diagnostic error   "-Wwrite-strings"
 #endif
@@ -114,7 +115,7 @@
 #pragma GCC diagnostic warning "-Wmissing-format-attribute"
 #pragma GCC diagnostic warning "-Wundef"
 #pragma GCC diagnostic warning "-Wunsafe-loop-optimizations"
-#pragma GCC diagnostic warning "-Wunused-but-set-variable"
+//#pragma GCC diagnostic warning "-Wunused-but-set-variable"
 #endif
 
 /* Ignored currently, but should be fixed at some point. */

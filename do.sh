@@ -3,9 +3,10 @@ EMTOOLCHAIN=$(dirname $(which emcc))/../share/emscripten
 export CXX=$EMTOOLCHAIN"/em++"
 export CC=$EMTOOLCHAIN"/emcc"
 export AR=$EMTOOLCHAIN"/emar"
-export CFLAGS=""
-export CXXFLAGS=""
+export CFLAGS="-Wno-unused -Wno-unused-private-field -Wno-missing-braces"
+export CXXFLAGS=$CFLAGS
 export EXEEXT="yes"
+export PRECOMPILED_HEADERS_AVAILABLE=false
 cd jdk
 if [ $1 = "config" ]; then
   rm -rf build/*
@@ -14,7 +15,8 @@ if [ $1 = "config" ]; then
     --with-conf-name=emscripten \
     --with-tools-dir=$EMTOOLCHAIN \
     --openjdk-target=arm-linux-gnueabihf \
-    --without-cups --with-freetype=bundled --without-fontconfig
+    --without-cups --with-freetype=bundled --without-fontconfig \
+    --enable-precompiled-headers=no
 else
   make images emscripten
 fi

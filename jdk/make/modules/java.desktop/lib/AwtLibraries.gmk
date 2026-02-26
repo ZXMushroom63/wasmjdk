@@ -119,8 +119,8 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBAWT, \
     DISABLED_WARNINGS_gcc := unused-but-set-variable unused-variable, \
     DISABLED_WARNINGS_gcc_awt_LoadLibrary.c := unused-result, \
     DISABLED_WARNINGS_gcc_debug_mem.c := format-nonliteral, \
-    DISABLED_WARNINGS_gcc_ProcessPath.c := maybe-uninitialized, \
-    DISABLED_WARNINGS_gcc_Region.c := maybe-uninitialized, \
+    DISABLED_WARNINGS_gcc_ProcessPath.c := uninitialized, \
+    DISABLED_WARNINGS_gcc_Region.c := uninitialized, \
     DISABLED_WARNINGS_gcc_SurfaceData.c := unused-value, \
     DISABLED_WARNINGS_gcc_TransformHelper.c := sign-compare, \
     DISABLED_WARNINGS_clang := unused-but-set-variable unused-variable, \
@@ -277,7 +277,7 @@ ifeq ($(call isTargetOs, windows macosx)+$(ENABLE_HEADLESS_ONLY), false+false)
           pointer-to-int-cast unused-but-set-variable, \
       DISABLED_WARNINGS_gcc_X11TextRenderer_md.c := unused-but-set-variable, \
       DISABLED_WARNINGS_gcc_XlibWrapper.c := type-limits pointer-to-int-cast, \
-      DISABLED_WARNINGS_gcc_XRBackendNative.c := maybe-uninitialized, \
+      DISABLED_WARNINGS_gcc_XRBackendNative.c := uninitialized, \
       DISABLED_WARNINGS_gcc_XWindow.c := unused-function, \
       DISABLED_WARNINGS_clang_awt_Taskbar.c := parentheses, \
       DISABLED_WARNINGS_clang_gtk3_interface.c := unused-function parentheses, \
