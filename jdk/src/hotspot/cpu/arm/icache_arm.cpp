@@ -30,7 +30,7 @@
 
 
 static int icache_flush(address addr, int lines, int magic) {
-  __builtin___clear_cache(addr, addr + (lines << ICache::log2_line_size));
+  //__builtin___clear_cache(addr, addr + (lines << ICache::log2_line_size));
   return magic;
 }
 
@@ -42,14 +42,14 @@ void ICacheStubGenerator::generate_icache_flush(ICache::flush_icache_stub_t* flu
 
   // ICache::invalidate_range() contains explicit condition that the first
   // call is invoked on the generated icache flush stub code range.
-  ICache::invalidate_range(start, 0);
+  //ICache::invalidate_range(start, 0);
 
   {
     // dummy code mark to make the shared code happy
     // (fields that would need to be modified to emulate the correct
     // mark are not accessible)
     StubCodeMark mark(this, "ICache", "fake_stub_for_inlined_icache_flush");
-    __ ret();
+    //__ ret();
   }
 }
 
