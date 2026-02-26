@@ -89,11 +89,6 @@ AC_DEFUN_ONCE([LIB_SETUP_X11],
       X_LIBS=`$ECHO $X_LIBS | $SED 's/-R \{0,1\}[[^ ]]*//g'`
     fi
 
-    if test "x$no_x" = xyes; then
-      HELP_MSG_MISSING_DEPENDENCY([x11])
-      AC_MSG_ERROR([Could not find X11 libraries. $HELP_MSG])
-    fi
-
     AC_LANG_PUSH(C)
     OLD_CFLAGS="$CFLAGS"
     CFLAGS="$CFLAGS $SYSROOT_CFLAGS $X_CFLAGS"
@@ -119,11 +114,6 @@ AC_DEFUN_ONCE([LIB_SETUP_X11],
             # include <X11/Xutil.h>
           ]
       )
-    fi
-
-    if test "x$X11_HEADERS_OK" = xno; then
-      HELP_MSG_MISSING_DEPENDENCY([x11])
-      AC_MSG_ERROR([Could not find all X11 headers (shape.h Xrender.h Xrandr.h XTest.h Intrinsic.h). $HELP_MSG])
     fi
 
     CFLAGS="$OLD_CFLAGS"
