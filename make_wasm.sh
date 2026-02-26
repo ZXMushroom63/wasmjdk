@@ -1,0 +1,2 @@
+cd jdk
+make emscripten
