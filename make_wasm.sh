@@ -1,2 +1,2 @@
 cd jdk
-make emscripten
+make images emscripten

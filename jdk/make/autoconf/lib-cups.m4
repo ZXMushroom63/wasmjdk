@@ -44,7 +44,7 @@ AC_DEFUN_ONCE([LIB_SETUP_CUPS],
     CUPS_FOUND=no
 
     if test "x${with_cups}" = xno || test "x${with_cups_include}" = xno; then
-      AC_MSG_ERROR([It is not possible to disable the use of cups. Remove the --without-cups option.])
+      AC_MSG_WARN([It is not possible to disable the use of cups. Remove the --without-cups option.])
     fi
 
     if test "x${with_cups}" != x; then
@@ -54,7 +54,7 @@ AC_DEFUN_ONCE([LIB_SETUP_CUPS],
         CUPS_FOUND=yes
         AC_MSG_RESULT([$CUPS_FOUND])
       else
-        AC_MSG_ERROR([Can't find 'include/cups/cups.h' under ${with_cups} given with the --with-cups option.])
+        AC_MSG_WARN([Can't find 'include/cups/cups.h' under ${with_cups} given with the --with-cups option.])
       fi
     fi
     if test "x${with_cups_include}" != x; then
@@ -64,7 +64,7 @@ AC_DEFUN_ONCE([LIB_SETUP_CUPS],
         CUPS_FOUND=yes
         AC_MSG_RESULT([$CUPS_FOUND])
       else
-        AC_MSG_ERROR([Can't find 'cups/cups.h' under ${with_cups_include} given with the --with-cups-include option.])
+        AC_MSG_WARN([Can't find 'cups/cups.h' under ${with_cups_include} given with the --with-cups-include option.])
       fi
     fi
     if test "x$CUPS_FOUND" = xno; then
@@ -85,7 +85,7 @@ AC_DEFUN_ONCE([LIB_SETUP_CUPS],
     fi
     if test "x$CUPS_FOUND" = xno; then
       HELP_MSG_MISSING_DEPENDENCY([cups])
-      AC_MSG_ERROR([Could not find cups! $HELP_MSG ])
+      AC_MSG_WARN([Could not find cups! $HELP_MSG ])
     fi
   fi
 

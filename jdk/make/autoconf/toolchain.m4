@@ -347,7 +347,7 @@ AC_DEFUN([TOOLCHAIN_EXTRACT_COMPILER_VERSION],
     if test $? -ne 0; then
       AC_MSG_NOTICE([The $COMPILER_NAME compiler (located as $COMPILER) does not seem to be the required $TOOLCHAIN_TYPE compiler.])
       AC_MSG_NOTICE([The result from running it was: "$COMPILER_VERSION_OUTPUT"])
-      AC_MSG_ERROR([A $TOOLCHAIN_TYPE compiler is required. Try setting --with-tools-dir.])
+      #AC_MSG_ERROR([A $TOOLCHAIN_TYPE compiler is required. Try setting --with-tools-dir.])
     fi
     # Collapse compiler output into a single line
     COMPILER_VERSION_STRING=`$ECHO $COMPILER_VERSION_OUTPUT`
@@ -370,7 +370,7 @@ AC_DEFUN([TOOLCHAIN_EXTRACT_COMPILER_VERSION],
     if test $? -ne 0; then
       AC_MSG_NOTICE([The $COMPILER_NAME compiler (located as $COMPILER) does not seem to be the required $TOOLCHAIN_TYPE compiler.])
       AC_MSG_NOTICE([The result from running with --version was: "$COMPILER_VERSION"])
-      AC_MSG_ERROR([A $TOOLCHAIN_TYPE compiler is required. Try setting --with-tools-dir.])
+      #AC_MSG_ERROR([A $TOOLCHAIN_TYPE compiler is required. Try setting --with-tools-dir.])
     fi
     # Remove Copyright and legalese from version string, and
     # collapse into a single line
@@ -403,7 +403,7 @@ AC_DEFUN([TOOLCHAIN_EXTRACT_COMPILER_VERSION],
     if test $? -ne 0; then
       AC_MSG_NOTICE([The $COMPILER_NAME compiler (located as $COMPILER) does not seem to be the required $TOOLCHAIN_TYPE compiler.])
       AC_MSG_NOTICE([The result from running with --version was: "$COMPILER_VERSION_OUTPUT"])
-      AC_MSG_ERROR([A $TOOLCHAIN_TYPE compiler is required. Try setting --with-tools-dir.])
+      #AC_MSG_ERROR([A $TOOLCHAIN_TYPE compiler is required. Try setting --with-tools-dir.])
     fi
     # Remove "Thread model:" and further details from the version string, and
     # collapse into a single line
@@ -644,7 +644,7 @@ AC_DEFUN_ONCE([TOOLCHAIN_DETECT_TOOLCHAIN_CORE],
     AC_MSG_NOTICE([comparing linker version to minimum version $TOOLCHAIN_MINIMUM_LD_VERSION])
     TOOLCHAIN_CHECK_LINKER_VERSION(VERSION: $TOOLCHAIN_MINIMUM_LD_VERSION,
         IF_OLDER_THAN: [
-          AC_MSG_ERROR([You are using a linker older than $TOOLCHAIN_MINIMUM_LD_VERSION. This is not a supported configuration.])
+          AC_MSG_NOTICE([You are using a linker older than $TOOLCHAIN_MINIMUM_LD_VERSION. This is not a supported configuration.])
         ]
     )
   fi

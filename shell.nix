@@ -4,8 +4,6 @@
         gnumake
         libllvm
         pkg-config
-        glib
-        glibc
         meson
         ninja
         cmake

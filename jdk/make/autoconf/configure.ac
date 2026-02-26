@@ -61,6 +61,7 @@ m4_include([jvm-features.m4])
 m4_include([libraries.m4])
 m4_include([platform.m4])
 m4_include([source-dirs.m4])
+m4_define([_AC_COMPILER_EXEEXT], [EXEEXT=])
 m4_include([toolchain.m4])
 
 ################################################################################

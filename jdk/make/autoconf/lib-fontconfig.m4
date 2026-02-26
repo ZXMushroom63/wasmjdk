@@ -44,7 +44,7 @@ AC_DEFUN_ONCE([LIB_SETUP_FONTCONFIG],
     FONTCONFIG_FOUND=no
 
     if test "x${with_fontconfig}" = xno || test "x${with_fontconfig_include}" = xno; then
-      AC_MSG_ERROR([It is not possible to disable the use of fontconfig. Remove the --without-fontconfig option.])
+      AC_MSG_WARN([It is not possible to disable the use of fontconfig. Remove the --without-fontconfig option.])
     fi
 
     if test "x${with_fontconfig}" != x; then
@@ -54,7 +54,7 @@ AC_DEFUN_ONCE([LIB_SETUP_FONTCONFIG],
         FONTCONFIG_FOUND=yes
         AC_MSG_RESULT([$FONTCONFIG_FOUND])
       else
-        AC_MSG_ERROR([Can't find 'include/fontconfig/fontconfig.h' under ${with_fontconfig} given with the --with-fontconfig option.])
+        AC_MSG_WARN([Can't find 'include/fontconfig/fontconfig.h' under ${with_fontconfig} given with the --with-fontconfig option.])
       fi
     fi
     if test "x${with_fontconfig_include}" != x; then
@@ -64,7 +64,7 @@ AC_DEFUN_ONCE([LIB_SETUP_FONTCONFIG],
         FONTCONFIG_FOUND=yes
         AC_MSG_RESULT([$FONTCONFIG_FOUND])
       else
-        AC_MSG_ERROR([Can't find 'fontconfig/fontconfig.h' under ${with_fontconfig_include} given with the --with-fontconfig-include option.])
+        AC_MSG_WARN([Can't find 'fontconfig/fontconfig.h' under ${with_fontconfig_include} given with the --with-fontconfig-include option.])
       fi
     fi
     if test "x$FONTCONFIG_FOUND" = xno; then
@@ -77,7 +77,7 @@ AC_DEFUN_ONCE([LIB_SETUP_FONTCONFIG],
     fi
     if test "x$FONTCONFIG_FOUND" = xno; then
       HELP_MSG_MISSING_DEPENDENCY([fontconfig])
-      AC_MSG_ERROR([Could not find fontconfig! $HELP_MSG ])
+      AC_MSG_WARN([Could not find fontconfig! $HELP_MSG ])
     fi
   fi
 
