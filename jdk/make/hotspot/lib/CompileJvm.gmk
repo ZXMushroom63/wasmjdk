@@ -100,7 +100,7 @@ DISABLED_WARNINGS_gcc := array-bounds comment delete-non-virtual-dtor \
     uninitialized missing-field-initializers \
     shift-negative-value unknown-pragmas unused-but-set-variable \
     unused-local-typedefs unused-variable unused-private-field \
-    tautological-type-limit-compare missing-braces
+    tautological-type-limit-compare missing-braces unused-function
 
 DISABLED_WARNINGS_clang := delete-non-abstract-non-virtual-dtor missing-braces \
     sometimes-uninitialized unknown-pragmas unused-but-set-variable \
