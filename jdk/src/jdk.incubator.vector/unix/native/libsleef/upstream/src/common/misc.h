@@ -319,7 +319,6 @@ typedef struct {
 #if !defined (__clang__)
 #pragma GCC diagnostic ignored "-Wattribute-alias"
 #pragma GCC diagnostic ignored "-Wlto-type-mismatch"
-#pragma GCC diagnostic ignored "-Wstringop-overflow"
 #endif
 #endif
 

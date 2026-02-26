@@ -525,7 +525,7 @@ AC_DEFUN_ONCE([JDKOPT_SETUP_UNDEFINED_BEHAVIOR_SANITIZER],
       OPTIONAL: true)
 
   # GCC reports lots of likely false positives for stringop-truncation and format-overflow.
-  # GCC 13 also for array-bounds and stringop-overflow
+  # GCC 13 also for array-bounds and other
   # Silence them for now.
   UBSAN_CHECKS="-fsanitize=undefined -fsanitize=float-divide-by-zero -fno-sanitize=shift-base -fno-sanitize=alignment \
       $ADDITIONAL_UBSAN_CHECKS"
