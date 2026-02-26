@@ -139,9 +139,7 @@ class LinuxFileSystem extends UnixFileSystem {
                       int size, long addressToPollForCancel)
         throws UnixException
     {
-        int advice = POSIX_FADV_SEQUENTIAL | // sequential data access
-                     POSIX_FADV_NOREUSE    | // will access only once
-                     POSIX_FADV_WILLNEED;    // will access in near future
+        int advice = 0;    // will access in near future
         posix_fadvise(src, 0, 0, advice);
 
         super.bufferedCopy(dst, src, address, size, addressToPollForCancel);
@@ -151,9 +149,7 @@ class LinuxFileSystem extends UnixFileSystem {
     int directCopy(int dst, int src, long addressToPollForCancel)
         throws UnixException
     {
-        int advice = POSIX_FADV_SEQUENTIAL | // sequential data access
-                     POSIX_FADV_NOREUSE    | // will access only once
-                     POSIX_FADV_WILLNEED;    // will access in near future
+        int advice = 0;    // will access in near future
         posix_fadvise(src, 0, 0, advice);
 
         return directCopy0(dst, src, addressToPollForCancel);
