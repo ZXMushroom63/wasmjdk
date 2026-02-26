@@ -53,7 +53,7 @@ inline int SafeFetch32(int* adr, int errValue) {
 }
 
 inline intptr_t SafeFetchN(intptr_t* adr, intptr_t errValue) {
-  return nullptr;
+  return static_cast<intptr_t>(0);
   // return SafeFetchN_impl(adr, errValue);
 }
 

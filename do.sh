@@ -1,8 +1,9 @@
 EMBIN=$(dirname $(which emcc))
-EMTOOLCHAIN=$(dirname $(which emcc))/../share/emscripten
+export EMTOOLCHAIN=$(dirname $(which emcc))/../share/emscripten
 export CXX=$EMTOOLCHAIN"/em++"
 export CC=$EMTOOLCHAIN"/emcc"
 export AR=$EMTOOLCHAIN"/emar"
+export STRIP=$EMTOOLCHAIN"/emstrip"
 export CFLAGS="-Wno-unused -Wno-unused-private-field -Wno-missing-braces"
 export CXXFLAGS=$CFLAGS
 export EXEEXT="yes"
