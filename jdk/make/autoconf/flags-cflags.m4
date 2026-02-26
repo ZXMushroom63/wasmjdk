@@ -236,8 +236,8 @@ AC_DEFUN([FLAGS_SETUP_WARNINGS],
 
       # Additional warnings that are not activated by -Wall and -Wextra
       WARNINGS_ENABLE_ADDITIONAL="-Winvalid-pch -Wpointer-arith -Wreturn-type \
-          -Wsign-compare -Wtrampolines -Wtype-limits -Wundef -Wuninitialized \
-          -Wunused-const-variable=1 -Wunused-function -Wunused-result \
+          -Wsign-compare -Wtype-limits -Wundef -Wno-uninitialized \
+          -Wunused-const-variable -Wunused-function -Wunused-result \
           -Wunused-value"
       WARNINGS_ENABLE_ADDITIONAL_CXX="-Woverloaded-virtual -Wreorder"
       WARNINGS_ENABLE_ALL_CFLAGS="-Wall -Wextra -Wformat=2 $WARNINGS_ENABLE_ADDITIONAL"
@@ -781,7 +781,7 @@ AC_DEFUN([FLAGS_SETUP_CFLAGS_CPU_DEP],
   if test "x$TOOLCHAIN_TYPE" = xgcc; then
     # This flag is required since GCC 6 as undefined behavior in OpenJDK code
     # runs afoul of the more aggressive versions of this optimization.
-    $1_TOOLCHAIN_CFLAGS="-fno-lifetime-dse"
+    $1_TOOLCHAIN_CFLAGS=""
   fi
 
   if test "x$TOOLCHAIN_TYPE" = xmicrosoft; then
