@@ -55,37 +55,11 @@
 // }
 
 inline static void dmb_sy() {
-   if (VM_Version::arm_arch() >= 7) {
-#ifdef __thumb__
-     __asm__ volatile (
-     "dmb sy": : : "memory");
-#else
-     __asm__ volatile (
-     ".word 0xF57FF050 | 0xf" : : : "memory");
-#endif
-   } else if (VM_Version::arm_arch() == 6) {
-     intptr_t zero = 0;
-     __asm__ volatile (
-       "mcr p15, 0, %0, c7, c10, 5"
-       : : "r" (zero) : "memory");
-   }
+   __asm__ volatile("" ::: "memory");
 }
 
 inline static void dmb_st() {
-   if (VM_Version::arm_arch() >= 7) {
-#ifdef __thumb__
-     __asm__ volatile (
-     "dmb st": : : "memory");
-#else
-     __asm__ volatile (
-     ".word 0xF57FF050 | 0xe" : : : "memory");
-#endif
-   } else if (VM_Version::arm_arch() == 6) {
-     intptr_t zero = 0;
-     __asm__ volatile (
-       "mcr p15, 0, %0, c7, c10, 5"
-       : : "r" (zero) : "memory");
-   }
+   __asm__ volatile("" ::: "memory");
 }
 
 // Load-Load/Store barrier

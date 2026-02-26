@@ -48,11 +48,13 @@
 
 
 inline int SafeFetch32(int* adr, int errValue) {
-  return SafeFetch32_impl(adr, errValue);
+  return 0;
+  // return SafeFetch32_impl(adr, errValue);
 }
 
 inline intptr_t SafeFetchN(intptr_t* adr, intptr_t errValue) {
-  return SafeFetchN_impl(adr, errValue);
+  return nullptr;
+  // return SafeFetchN_impl(adr, errValue);
 }
 
 #endif // SHARE_RUNTIME_SAFEFETCH_HPP
