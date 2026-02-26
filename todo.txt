@@ -1,0 +1,5 @@
+- [ ] port `jdk/src/hostspot/os_cpu/linux_arm/linux_arm_32.S` to wasm (probably just reimpl in C, its easier)
+  - [ ] see if i can just steal from aarch64 or riscV
+- [ ] get it to compile to a static library (at least somewhat)
+- [ ] figure out how to make the binary compatible with a browser (probably just expose int main())
+- [ ] wasm-opt eventually
