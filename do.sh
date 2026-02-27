@@ -4,7 +4,8 @@ export CXX=$EMTOOLCHAIN"/em++"
 export CC=$EMTOOLCHAIN"/emcc"
 export AR=$EMTOOLCHAIN"/emar"
 export STRIP=$EMTOOLCHAIN"/emstrip"
-export CFLAGS="-Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function"
+export NM=$EMTOOLCHAIN"/emnm"
+export CFLAGS="-Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical"
 export CXXFLAGS=$CFLAGS
 export EXEEXT="yes"
 export PRECOMPILED_HEADERS_AVAILABLE=false
@@ -17,7 +18,9 @@ if [ $1 = "config" ]; then
     --with-tools-dir=$EMTOOLCHAIN \
     --openjdk-target=arm-linux-gnueabihf \
     --without-cups --with-freetype=bundled --without-fontconfig \
-    --enable-precompiled-headers=no
+    --with-alsa=bundled --with-libpng=bundled \
+    --enable-precompiled-headers=no \
+    AR=$AR STRIP=$STRIP CXX=$CXX CC=$CC NM=$NM ar=$AR strip=$STRIP cxx=$CXX cc=$CC nm=$NM
 else
   make images emscripten
 fi
