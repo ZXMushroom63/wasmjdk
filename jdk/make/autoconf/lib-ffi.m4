@@ -133,7 +133,7 @@ AC_DEFUN_ONCE([LIB_SETUP_LIBFFI],
 
     if test "x$LIBFFI_WORKS" = xno; then
       HELP_MSG_MISSING_DEPENDENCY([ffi])
-      AC_MSG_ERROR([Found libffi but could not link and compile with it. $HELP_MSG])
+      AC_MSG_WARN([Found libffi but could not link and compile with it. $HELP_MSG])
     fi
 
     # Check if FFI_GO_CLOSURES is properly defined. On some distributions, notably MacOS AArch64,

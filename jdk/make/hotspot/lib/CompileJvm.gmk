@@ -101,12 +101,12 @@ DISABLED_WARNINGS_gcc := array-bounds comment delete-non-virtual-dtor \
     shift-negative-value unknown-pragmas unused-but-set-variable \
     unused-local-typedefs unused-variable unused-private-field \
     tautological-type-limit-compare missing-braces unused-function \
-    bitwise-instead-of-logical
+    bitwise-instead-of-logical undef format format-security
 
 DISABLED_WARNINGS_clang := delete-non-abstract-non-virtual-dtor missing-braces \
     sometimes-uninitialized unknown-pragmas unused-but-set-variable \
     unused-function unused-local-typedef unused-private-field unused-variable \
-    tautological-type-limit-compare missing-braces bitwise-instead-of-logical
+    tautological-type-limit-compare missing-braces bitwise-instead-of-logical undef format format-security
 
 ifneq ($(DEBUG_LEVEL), release)
   # Assert macro gives warning
