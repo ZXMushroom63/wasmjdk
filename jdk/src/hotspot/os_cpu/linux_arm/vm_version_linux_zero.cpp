@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2008, 2025, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2025, Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2009 Red Hat, Inc.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,23 +26,4 @@
 #include "runtime/os.hpp"
 #include "runtime/vm_version.hpp"
 
-# include <sys/utsname.h>
-
-// Use uname() to find the architecture version
-void VM_Version::get_os_cpu_info() {
-  struct utsname name;
-  static bool done = false;
-
-  // Support for multiple calls in the init phase
-  if (done) return;
-  done = true;
-
-  uname(&name);
-  if (strncmp(name.machine, "aarch64", 7) == 0) {
-    _arm_arch = 8;
-  } else if (strncmp(name.machine, "armv", 4) == 0 &&
-      name.machine[4] >= '5' && name.machine[4] <= '9') {
-    _arm_arch = (int)(name.machine[4] - '0');
-  }
-}
-
+// This file is intentionally empty

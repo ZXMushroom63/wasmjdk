@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2022 SAP SE. All rights reserved.
- * Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2025, Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2009 Red Hat, Inc.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,16 +23,7 @@
  *
  */
 
-#include "defs.S.inc"
+#include "runtime/os.hpp"
+#include "runtime/vm_version.hpp"
 
-    # Support for int SafeFetch32(int* address, int defaultval);
-    #
-    #  r0 : address
-    #  r1 : defaultval
-DECLARE_FUNC(SafeFetch32_impl):
-DECLARE_FUNC(_SafeFetch32_fault):
-    ldr      r0, [r0]
-    bx       lr
-DECLARE_FUNC(_SafeFetch32_continuation):
-    mov      r0, r1
-    bx       lr
+// This file is intentionally empty

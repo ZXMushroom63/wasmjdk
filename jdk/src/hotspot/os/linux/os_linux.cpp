@@ -468,6 +468,7 @@ bool os::Linux::get_tick_information(CPUPerfTicks* pticks, int which_logical_cpu
   return true;
 }
 
+#define SYS_gettid 224 //EMPATCH
 #ifndef SYS_gettid
 // i386: 224, amd64: 186, sparc: 143
   #if defined(__i386__)
@@ -1081,7 +1082,7 @@ bool os::create_thread(Thread* thread, ThreadType thr_type,
       // Print current timer slack if override is enabled and timer slack value is available.
       // Avoid calling prctl otherwise for extra safety.
       if (TimerSlack >= 0) {
-        int slack = prctl(PR_GET_TIMERSLACK);
+        int slack = 50000;
         if (slack >= 0) {
           log_info(os, thread)("Thread \"%s\" (pthread id: %zu) timer slack: %dns",
                                thread->name(), (uintx) tid, slack);
@@ -1632,6 +1633,10 @@ class VM_LinuxDllLoad: public VM_Operation {
 };
 
 void * os::dll_load(const char *filename, char *ebuf, int ebuflen) {
+  // EMPATCH
+  // EMTODO
+  std::cerr << "Attempting unsupported DLL load!" << std::endl;
+  return nullptr;
   void * result = nullptr;
   bool load_attempted = false;
 
@@ -1757,7 +1762,7 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen) {
 
   static const arch_t arch_array[]={
     {EM_386,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
-    {EM_486,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
+    {6,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
     {EM_IA_64,       EM_IA_64,   ELFCLASS64, ELFDATA2LSB, (char*)"IA 64"},
     {EM_X86_64,      EM_X86_64,  ELFCLASS64, ELFDATA2LSB, (char*)"AMD 64"},
     {EM_SPARC,       EM_SPARC,   ELFCLASS32, ELFDATA2MSB, (char*)"Sparc 32"},
@@ -4712,9 +4717,10 @@ jint os::init_2(void) {
   // thread will establish the setting for child threads, which would be
   // most threads in JDK/JVM.
   if (TimerSlack >= 0) {
-    if (prctl(PR_SET_TIMERSLACK, TimerSlack) < 0) {
-      vm_exit_during_initialization("Setting timer slack failed: %s", os::strerror(errno));
-    }
+    // EMPATCH
+    // if (prctl(PR_SET_TIMERSLACK, TimerSlack) < 0) {
+    //   vm_exit_during_initialization("Setting timer slack failed: %s", os::strerror(errno));
+    // }
   }
 
   return JNI_OK;
