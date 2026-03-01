@@ -12,7 +12,7 @@ export NM=$EMTOOLCHAIN"/emnm"
 export INCL="-I"$SHIM_INCLUDES" -I"$LIBFFI_BUILD"/include";
 export CFLAGS="-Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument "$INCL
 export CXXFLAGS=$CFLAGS
-export LDFLAGS=$INCL" -L"$LIBFFI_BUILD"/lib -llibffi -sSIDE_MODULE=1"
+export LDFLAGS="-Wno-unused-command-line-argument "$INCL" -L"$LIBFFI_BUILD"/lib -lffi -sSIDE_MODULE=1 "
 export EXEEXT="yes"
 export PRECOMPILED_HEADERS_AVAILABLE=false
 export BUILD_JDK=$(readlink -f $(dirname $(which java))"/../../..")
@@ -25,7 +25,7 @@ if [ "$1" = "config" ]; then
     --with-toolchain-path=$EMTOOLCHAIN \
     --with-conf-name=emscripten \
     --with-tools-dir=$EMTOOLCHAIN \
-    --openjdk-target=x86_64-unknown-linux-gnu \
+    --openjdk-target=i686-unknown-linux-gnu \
     --with-jvm-variants=zero \
     --with-libffi-include="$LIBFFI_BUILD"/include \
     --with-libffi-lib="$LIBFFI_BUILD"/lib \
