@@ -58,7 +58,11 @@ enum membarrier_cmd {
 };
 
 static long membarrier(int cmd, unsigned int flags, int cpu_id) {
-  return syscall(SYS_membarrier, cmd, flags, cpu_id); // cpu_id only on >= 5.10
+#if defined(__EMSCRIPTEN__)
+  return 0; 
+#else
+  return syscall(SYS_membarrier, cmd, flags, cpu_id);
+#endif
 }
 
 bool LinuxSystemMemoryBarrier::initialize() {

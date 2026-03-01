@@ -32,9 +32,9 @@ ifeq ($(INCLUDE), true)
 ################################################################################
 
 ifeq ($(TOOLCHAIN_TYPE), gcc)
-  BUILD_LIBJVM_vmStructs.cpp_CXXFLAGS := -fno-var-tracking-assignments
-  BUILD_LIBJVM_jvmciCompilerToVM.cpp_CXXFLAGS := -fno-var-tracking-assignments
-  BUILD_LIBJVM_jvmciCompilerToVMInit.cpp_CXXFLAGS := -fno-var-tracking-assignments
+  BUILD_LIBJVM_vmStructs.cpp_CXXFLAGS := 
+  BUILD_LIBJVM_jvmciCompilerToVM.cpp_CXXFLAGS := 
+  BUILD_LIBJVM_jvmciCompilerToVMInit.cpp_CXXFLAGS := 
   ifeq ($(DEBUG_LEVEL), release)
     # Need extra inlining to collapse shared marking code into the hot marking loop
     BUILD_LIBJVM_shenandoahMark.cpp_CXXFLAGS := --param inline-unit-growth=1000

@@ -10,7 +10,7 @@ export AR=$EMTOOLCHAIN"/emar"
 export STRIP=$EMTOOLCHAIN"/emstrip"
 export NM=$EMTOOLCHAIN"/emnm"
 export INCL="-I"$SHIM_INCLUDES" -I"$LIBFFI_BUILD"/include";
-export CFLAGS="-Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations "$INCL
+export CFLAGS="-Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument "$INCL
 export CXXFLAGS=$CFLAGS
 export LDFLAGS=$INCL" -L"$LIBFFI_BUILD"/lib -llibffi -sSIDE_MODULE=1"
 export EXEEXT="yes"
