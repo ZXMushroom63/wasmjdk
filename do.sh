@@ -12,8 +12,7 @@ export NM=$EMTOOLCHAIN"/emnm"
 export INCL="-I"$SHIM_INCLUDES" -I"$LIBFFI_BUILD"/include";
 export CFLAGS="-fPIC -fvisibility=default -Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument -sMAIN_MODULE=1 -sRELOCATABLE=1 "$INCL
 export CXXFLAGS=$CFLAGS
-export LDFLAGS="-sRELOCATABLE=1 -Wno-unused-command-line-argument "$INCL" -L"$LIBFFI_BUILD"/lib -lffi -sMAIN_MODULE=1 -fPIC -fvisibility=default -sERROR_ON_UNDEFINED_SYMBOLS=0 "
-export EXEEXT="yes"
+export LDFLAGS="-sRELOCATABLE=1 -Wno-unused-command-line-argument -sMAIN_MODULE=1 -fPIC -fvisibility=default -sERROR_ON_UNDEFINED_SYMBOLS=0 "
 export PRECOMPILED_HEADERS_AVAILABLE=false
 export BUILD_JDK=$(readlink -f $(dirname $(which java))"/../../..")
 cd jdk
@@ -29,6 +28,7 @@ if [ "$1" = "config" ]; then
     --with-jvm-variants=zero \
     --with-libffi-include="$LIBFFI_BUILD"/include \
     --with-libffi-lib="$LIBFFI_BUILD"/lib \
+    --enable-libffi-bundling \
     --without-cups --with-freetype=bundled --without-fontconfig \
     --with-alsa=bundled --with-libpng=bundled \
     --enable-precompiled-headers=no --disable-warnings-as-errors \
