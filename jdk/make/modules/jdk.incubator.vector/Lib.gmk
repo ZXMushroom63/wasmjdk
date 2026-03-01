@@ -56,9 +56,9 @@ ifeq ($(INCLUDE_COMPILER2), true)
         OPTIMIZATION := HIGH, \
         SRC := libsleef/lib, \
         EXTRA_SRC := libsleef/generated, \
-        DISABLED_WARNINGS_gcc := unused-function sign-compare \
+        DISABLED_WARNINGS_gcc := unused-function deprecated-declarations sign-compare \
             tautological-compare ignored-qualifiers, \
-        DISABLED_WARNINGS_clang := unused-function sign-compare \
+        DISABLED_WARNINGS_clang := unused-function deprecated-declarations sign-compare \
             tautological-compare ignored-qualifiers, \
         CFLAGS := $(LIBSLEEF_CFLAGS), \
         vector_math_sve.c_CFLAGS := $(SVE_CFLAGS), \

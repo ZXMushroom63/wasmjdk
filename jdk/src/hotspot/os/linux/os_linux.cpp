@@ -117,6 +117,7 @@
 # include <sys/ioctl.h>
 # include <linux/elf-em.h>
 # include <sys/prctl.h>
+# include <emscripten.h>
 #ifdef __GLIBC__
 # include <malloc.h>
 #endif
@@ -144,6 +145,9 @@ static void *dlvsym(void *handle,
                     const char *symbol,
                     const char *version) {
    // load the latest version of symbol
+   //EMPATCH
+   std::cerr << "Attempted to load dynamic library! this is not supported in a static environment." << std::endl;
+   return nullptr;
    return dlsym(handle, symbol);
 }
 #endif
@@ -470,7 +474,9 @@ bool os::Linux::get_tick_information(CPUPerfTicks* pticks, int which_logical_cpu
 
 #ifndef SYS_gettid
 // i386: 224, amd64: 186, sparc: 143
-  #if defined(__i386__)
+  #if defined(__EMSCRIPTEN__)
+    #define SYS_gettid 0
+  #elif defined(__i386__)
     #define SYS_gettid 224
   #elif defined(__amd64__)
     #define SYS_gettid 186
@@ -486,9 +492,7 @@ bool os::Linux::get_tick_information(CPUPerfTicks* pticks, int which_logical_cpu
 // Returns the kernel thread id of the currently running thread. Kernel
 // thread id is used to access /proc.
 pid_t os::Linux::gettid() {
-  long rslt = syscall(SYS_gettid);
-  assert(rslt != -1, "must be."); // old linuxthreads implementation?
-  return (pid_t)rslt;
+  return (pid_t)pthread_self();
 }
 
 // Returns the amount of swap currently configured, in bytes.
@@ -1081,7 +1085,7 @@ bool os::create_thread(Thread* thread, ThreadType thr_type,
       // Print current timer slack if override is enabled and timer slack value is available.
       // Avoid calling prctl otherwise for extra safety.
       if (TimerSlack >= 0) {
-        int slack = prctl(PR_GET_TIMERSLACK);
+        int slack = -1;
         if (slack >= 0) {
           log_info(os, thread)("Thread \"%s\" (pthread id: %zu) timer slack: %dns",
                                thread->name(), (uintx) tid, slack);
@@ -1755,6 +1759,8 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen) {
   #define EM_LOONGARCH  258               /* LoongArch */
 #endif
 
+  #define EM_486 6
+
   static const arch_t arch_array[]={
     {EM_386,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
     {EM_486,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
@@ -1833,7 +1839,7 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen) {
   arch_t lib_arch={elf_head.e_machine,0,elf_head.e_ident[EI_CLASS], elf_head.e_ident[EI_DATA], nullptr};
   int running_arch_index=-1;
 
-  for (unsigned int i=0; i < ARRAY_SIZE(arch_array); i++) {
+  for (unsigned int i=0; i < (sizeof(arch_array) / sizeof(arch_array[0])); i++) {
     if (running_arch_code == arch_array[i].code) {
       running_arch_index    = i;
     }
@@ -3184,17 +3190,19 @@ extern "C" JNIEXPORT void numa_error(char *where) { }
 // Handle request to load libnuma symbol version 1.1 (API v1). If it fails
 // load symbol from base version instead.
 void* os::Linux::libnuma_dlsym(void* handle, const char *name) {
-  void *f = dlvsym(handle, name, "libnuma_1.1");
-  if (f == nullptr) {
-    f = dlsym(handle, name);
-  }
-  return f;
+  return nullptr; //EMPATCH
+  // void *f = dlvsym(handle, name, "libnuma_1.1");
+  // if (f == nullptr) {
+  //   f = dlsym(handle, name);
+  // }
+  // return f;
 }
 
 // Handle request to load libnuma symbol version 1.2 (API v2) only.
 // Return null if the symbol is not defined in this particular version.
 void* os::Linux::libnuma_v2_dlsym(void* handle, const char* name) {
-  return dlvsym(handle, name, "libnuma_1.2");
+  return nullptr; //EMPATCH
+  //return dlvsym(handle, name, "libnuma_1.2");
 }
 
 // Check numa dependent syscalls
@@ -4712,9 +4720,10 @@ jint os::init_2(void) {
   // thread will establish the setting for child threads, which would be
   // most threads in JDK/JVM.
   if (TimerSlack >= 0) {
-    if (prctl(PR_SET_TIMERSLACK, TimerSlack) < 0) {
-      vm_exit_during_initialization("Setting timer slack failed: %s", os::strerror(errno));
-    }
+    //EMPATCH
+    // if (prctl(PR_SET_TIMERSLACK, TimerSlack) < 0) {
+    //   vm_exit_during_initialization("Setting timer slack failed: %s", os::strerror(errno));
+    // }
   }
 
   return JNI_OK;
