@@ -10,9 +10,9 @@ export AR=$EMTOOLCHAIN"/emar"
 export STRIP=$EMTOOLCHAIN"/emstrip"
 export NM=$EMTOOLCHAIN"/emnm"
 export INCL="-I"$SHIM_INCLUDES" -I"$LIBFFI_BUILD"/include";
-export CFLAGS="-fPIC -fvisibility=default -Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument "$INCL
+export CFLAGS="-fPIC -fvisibility=default -Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument -sMAIN_MODULE=1 -sRELOCATABLE=1 "$INCL
 export CXXFLAGS=$CFLAGS
-export LDFLAGS="-Wno-unused-command-line-argument "$INCL" -L"$LIBFFI_BUILD"/lib -lffi -sSIDE_MODULE=1 -fPIC -fvisibility=default -sERROR_ON_UNDEFINED_SYMBOLS=0 "
+export LDFLAGS="-sRELOCATABLE=1 -Wno-unused-command-line-argument "$INCL" -L"$LIBFFI_BUILD"/lib -lffi -sMAIN_MODULE=1 -fPIC -fvisibility=default -sERROR_ON_UNDEFINED_SYMBOLS=0 "
 export EXEEXT="yes"
 export PRECOMPILED_HEADERS_AVAILABLE=false
 export BUILD_JDK=$(readlink -f $(dirname $(which java))"/../../..")
@@ -37,5 +37,5 @@ if [ "$1" = "config" ]; then
     AR=$AR STRIP=$STRIP CXX=$CXX CC=$CC NM=$NM ar=$AR strip=$STRIP cxx=$CXX cc=$CC nm=$NM LD=$CC
 else
   find build/emscripten/support -type f -exec touch -t 202601010000.05 {} + #fix zip throwing timestamp errors
-  emmake make images emscripten
+  emmake make images emscripten && echo "JDK/JRE 25 cross-compiled to webassembly"
 fi
