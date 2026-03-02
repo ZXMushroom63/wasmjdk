@@ -54,7 +54,7 @@ else
   echo "Ignore the error, it is caused by a validation step in the makefile that cannot handle wasm binaries"
   echo ""
 
-  cp build/emscripten/jdk/lib/zero/libjvm.so ../build/lib/libjvm.a
-  rm -r ../build/include/*
-  cp -r build/emscripten/jdk/include/* ../build/include/
+  cp build/emscripten/jdk/lib/zero/libjvm.so ../wasmjdk_build/lib/libjvm.a
+  rm -r ../wasmjdk_build/include/*
+  cp -r build/emscripten/jdk/include/* ../wasmjdk_build/include/
 fi
