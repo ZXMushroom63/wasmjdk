@@ -472,6 +472,7 @@ bool os::Linux::get_tick_information(CPUPerfTicks* pticks, int which_logical_cpu
   return true;
 }
 
+#define SYS_gettid 224 //EMPATCH
 #ifndef SYS_gettid
 // i386: 224, amd64: 186, sparc: 143
   #if defined(__EMSCRIPTEN__)
@@ -1636,6 +1637,10 @@ class VM_LinuxDllLoad: public VM_Operation {
 };
 
 void * os::dll_load(const char *filename, char *ebuf, int ebuflen) {
+  // EMPATCH
+  // EMTODO
+  std::cerr << "Attempting unsupported DLL load!" << std::endl;
+  return nullptr;
   void * result = nullptr;
   bool load_attempted = false;
 
@@ -1763,7 +1768,7 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen) {
 
   static const arch_t arch_array[]={
     {EM_386,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
-    {EM_486,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
+    {6,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
     {EM_IA_64,       EM_IA_64,   ELFCLASS64, ELFDATA2LSB, (char*)"IA 64"},
     {EM_X86_64,      EM_X86_64,  ELFCLASS64, ELFDATA2LSB, (char*)"AMD 64"},
     {EM_SPARC,       EM_SPARC,   ELFCLASS32, ELFDATA2MSB, (char*)"Sparc 32"},
