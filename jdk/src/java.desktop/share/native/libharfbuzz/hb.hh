@@ -70,7 +70,7 @@
 #pragma GCC diagnostic error   "-Wdelete-non-virtual-dtor"
 #pragma GCC diagnostic error   "-Wembedded-directive"
 #pragma GCC diagnostic error   "-Wextra-semi-stmt"
-#pragma GCC diagnostic error   "-Wformat-security"
+#pragma GCC diagnostic warning   "-Wformat-security"
 #pragma GCC diagnostic error   "-Wimplicit-function-declaration"
 #pragma GCC diagnostic error   "-Winit-self"
 #pragma GCC diagnostic error   "-Winjected-class-name"

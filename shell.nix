@@ -13,6 +13,8 @@
         git
         bash
         autoconf
+        automake
+        libtool
         unzip
         zip
         javaPackages.compiler.openjdk25

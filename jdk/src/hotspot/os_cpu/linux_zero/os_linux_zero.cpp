@@ -50,6 +50,8 @@
 #include "utilities/align.hpp"
 #include "utilities/events.hpp"
 #include "utilities/vmError.hpp"
+#include <emscripten.h>
+#include <emscripten/stack.h>
 
 address os::current_stack_pointer() {
   // return the address of the current function
@@ -86,7 +88,9 @@ char* os::non_memory_address_word() {
 
 address os::Posix::ucontext_get_pc(const ucontext_t* uc) {
   if (DecodeErrorContext) {
-#if defined(IA32)
+#if defined(__EMSCRIPTEN__)
+    return (address)__builtin_return_address(0);
+#elif defined(IA32)
     return (address)uc->uc_mcontext.gregs[REG_EIP];
 #elif defined(AMD64)
     return (address)uc->uc_mcontext.gregs[REG_RIP];
@@ -117,7 +121,9 @@ void os::Posix::ucontext_set_pc(ucontext_t* uc, address pc) {
 
 intptr_t* os::Linux::ucontext_get_sp(const ucontext_t* uc) {
   if (DecodeErrorContext) {
-#if defined(IA32)
+#if defined(__EMSCRIPTEN__)
+    return (intptr_t*)emscripten_stack_get_current();
+#elif defined(IA32)
     return (intptr_t*)uc->uc_mcontext.gregs[REG_UESP];
 #elif defined(AMD64)
     return (intptr_t*)uc->uc_mcontext.gregs[REG_RSP];
@@ -144,7 +150,9 @@ intptr_t* os::Linux::ucontext_get_sp(const ucontext_t* uc) {
 
 intptr_t* os::Linux::ucontext_get_fp(const ucontext_t* uc) {
   if (DecodeErrorContext) {
-#if defined(IA32)
+#if defined(__EMSCRIPTEN__)
+    return nullptr;
+#elif defined(IA32)
     return (intptr_t*)uc->uc_mcontext.gregs[REG_EBP];
 #elif defined(AMD64)
     return (intptr_t*)uc->uc_mcontext.gregs[REG_RBP];

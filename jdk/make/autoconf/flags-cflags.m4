@@ -40,7 +40,7 @@ AC_DEFUN([FLAGS_SETUP_SHARED_LIBS],
     # --disable-new-dtags forces use of RPATH instead of RUNPATH for rpaths.
     # This protects internal library dependencies within the JDK from being
     # overridden using LD_LIBRARY_PATH. See JDK-8326891 for more information.
-    SET_EXECUTABLE_ORIGIN='-Wl,-rpath,\$$ORIGIN[$]1 -Wl,--disable-new-dtags'
+    SET_EXECUTABLE_ORIGIN='-Wl,-rpath,\$$ORIGIN[$]1'
     SET_SHARED_LIBRARY_ORIGIN="-Wl,-z,origin $SET_EXECUTABLE_ORIGIN"
     SET_SHARED_LIBRARY_NAME='-Wl,-soname=[$]1'
 
@@ -64,7 +64,7 @@ AC_DEFUN([FLAGS_SETUP_SHARED_LIBS],
       SHARED_LIBRARY_FLAGS='-shared'
       SET_EXECUTABLE_ORIGIN='-Wl,-rpath,\$$ORIGIN[$]1'
       if test "x$OPENJDK_TARGET_OS" = xlinux; then
-        SET_EXECUTABLE_ORIGIN="$SET_EXECUTABLE_ORIGIN -Wl,--disable-new-dtags"
+        SET_EXECUTABLE_ORIGIN="$SET_EXECUTABLE_ORIGIN"
       fi
       SET_SHARED_LIBRARY_NAME='-Wl,-soname=[$]1'
 
@@ -706,11 +706,11 @@ AC_DEFUN([FLAGS_SETUP_CFLAGS_CPU_DEP],
       AC_MSG_CHECKING([if control flow protection is enabled by additional compiler flags])
       if echo "${EXTRA_CFLAGS}${EXTRA_CXXFLAGS}${EXTRA_ASFLAGS}" | ${GREP} -q 'fcf-protection' ; then
         # cf-protection requires CMOV and thus i686
-        $1_CFLAGS_CPU="-march=i686"
+        $1_CFLAGS_CPU="-fPIC "
         AC_MSG_RESULT([yes, forcing ${$1_CFLAGS_CPU}])
       else
         # Force compatibility with i586 on 32 bit intel platforms.
-        $1_CFLAGS_CPU="-march=i586"
+        $1_CFLAGS_CPU="-fPIC "
         AC_MSG_RESULT([no, forcing ${$1_CFLAGS_CPU}])
       fi
     else

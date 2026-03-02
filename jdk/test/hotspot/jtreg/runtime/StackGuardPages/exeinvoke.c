@@ -60,7 +60,7 @@ static volatile int _kp_rec_count = 0; // Kept record of rec_count, for retrying
 static int _peek_value = 0; // Used for accessing memory to cause SIGSEGV
 
 pid_t gettid() {
-  return (pid_t) syscall(SYS_gettid);
+  return (pid_t)pthread_self();
 }
 
 static void handler(int sig, siginfo_t *si, void *unused) {

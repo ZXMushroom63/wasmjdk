@@ -50,7 +50,7 @@ AC_DEFUN([FLAGS_SETUP_LDFLAGS_HELPER],
     # add -z,relro (mark relocations read only) for all libs
     # add -z,now ("full relro" - more of the Global Offset Table GOT is marked read only)
     # add --no-as-needed to disable default --as-needed link flag on some GCC toolchains
-    BASIC_LDFLAGS="-Wl,-z,defs -Wl,-z,relro -Wl,-z,now -Wl,--no-as-needed -Wl,--exclude-libs,ALL"
+    BASIC_LDFLAGS="-fPIC "
     # Linux : remove unused code+data in link step
     if test "x$ENABLE_LINKTIME_GC" = xtrue; then
       if test "x$OPENJDK_TARGET_CPU" = xs390x; then
@@ -173,9 +173,9 @@ AC_DEFUN([FLAGS_SETUP_LDFLAGS_CPU_DEP],
         test "x${OPENJDK_$1_CPU}" = xmipsel ||
         test "x${OPENJDK_$1_CPU}" = xmips64 ||
         test "x${OPENJDK_$1_CPU}" = xmips64el; then
-      $1_CPU_LDFLAGS="${$1_CPU_LDFLAGS} -Wl,--hash-style=sysv"
+      $1_CPU_LDFLAGS="${$1_CPU_LDFLAGS}"
     else
-      $1_CPU_LDFLAGS="${$1_CPU_LDFLAGS} -Wl,--hash-style=gnu"
+      $1_CPU_LDFLAGS="${$1_CPU_LDFLAGS}"
     fi
 
   elif test "x$TOOLCHAIN_TYPE" = xmicrosoft; then

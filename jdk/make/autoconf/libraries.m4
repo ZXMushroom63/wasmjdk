@@ -99,7 +99,7 @@ AC_DEFUN([LIB_SETUP_JVM_LIBS],
   if HOTSPOT_CHECK_JVM_VARIANT(zero); then
     if test "x$OPENJDK_$1_OS" = xlinux &&
         test "x$OPENJDK_TARGET_CPU_BITS" = "x32"; then
-      BASIC_JVM_LIBS_$1="$BASIC_JVM_LIBS_$1 -latomic"
+      BASIC_JVM_LIBS_$1="$BASIC_JVM_LIBS_$1"
     fi
   fi
 ])
