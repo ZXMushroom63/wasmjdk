@@ -6,15 +6,16 @@
 struct sysinfo {
     long uptime;
     unsigned long loads[3];
-    long totalram;
-    long freeram;
-    long sharedram;
-    long bufferram;
-    long totalswap;
-    long freeswap;
+    unsigned long totalram;
+    unsigned long freeram;
+    unsigned long sharedram;
+    unsigned long bufferram;
+    unsigned long totalswap;
+    unsigned long freeswap;
     unsigned short procs;
     char _f[22];
     char _ss[64];
+    unsigned int mem_unit;
 };
 
 int sysinfo(struct sysinfo *info) {
@@ -23,12 +24,13 @@ int sysinfo(struct sysinfo *info) {
     }
 
     info->uptime = 0;
-    info->totalram = 8 * 1024 * 1024 * 1024;  // 8 gb total
-    info->freeram = 4 * 1024 * 1024 * 1024;   // 4 gb free
+    info->totalram = 4ULL * 1024 * 1024;  // 8 gb total
+    info->freeram = 2ULL * 1024 * 1024;   // 4 gb free
     info->loads[0] = 10;            // fake load avg
     info->loads[1] = 5;             // fake load avg
     info->loads[2] = 2;             // fake load avg
     info->procs = 100;              // fake proc #
+    info->mem_unit = 1024;
 
     info->sharedram = 0;
     info->bufferram = 0;

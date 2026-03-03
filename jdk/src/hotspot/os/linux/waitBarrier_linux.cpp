@@ -3,27 +3,33 @@
 #define FUTEX_WAIT_PRIVATE 128
 #define FUTEX_WAKE_PRIVATE 129
 #include <emscripten/threading.h>
-#include <emscripten/atomic.h>
 #include <errno.h>
 #include <mutex>
 #include <emscripten.h>
 #include <condition_variable>
+#include <waitBarrier_linux.hpp>
+#include <atomic>
 
 
 void LinuxWaitBarrier::arm(int barrier_tag) {
-  _futex_barrier.store(barrier_tag);
+  _futex_barrier.store(barrier_tag, std::memory_order_release);
+  emscripten_futex_wake(&_futex_barrier, 1);
 }
 
 void LinuxWaitBarrier::disarm() {
-  _futex_barrier.store(0);
+  _futex_barrier.store(0, std::memory_order_release);
 }
 
 void LinuxWaitBarrier::wait(int barrier_tag) {
-  std::unique_lock<std::mutex> lock(_mutex);
-  
-  _cv.wait(lock, [this, barrier_tag]() {
-    return _futex_barrier.load() == barrier_tag;
-  });
+  while (true) {
+    int current_barrier = _futex_barrier.load(std::memory_order_acquire);
+    
+    if (current_barrier >= barrier_tag) {
+      return;
+    }
+
+    emscripten_futex_wait(&_futex_barrier, current_barrier, 0);
+  }
 }
 
 

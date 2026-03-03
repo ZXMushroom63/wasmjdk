@@ -27,9 +27,12 @@
 
 #include "memory/allocation.hpp"
 #include "utilities/globalDefinitions.hpp"
+#include <emscripten.h>
+#include <emscripten/threading.h>
+#include <atomic>
 
 class LinuxWaitBarrier : public CHeapObj<mtInternal> {
-  volatile int _futex_barrier;
+  std::atomic<int> _futex_barrier;
 
   NONCOPYABLE(LinuxWaitBarrier);
 
