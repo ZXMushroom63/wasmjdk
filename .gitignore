@@ -1,2 +1,3 @@
 *.log
 emcache/
+wasmjdk_build/
