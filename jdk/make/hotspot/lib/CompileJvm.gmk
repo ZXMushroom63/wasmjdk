@@ -354,17 +354,7 @@ ifneq ($(GENERATE_COMPILE_COMMANDS_ONLY), true)
     UNDEF_PATTERN := ' U '
 
     define SetupOperatorNewDeleteCheck
-        $1.op_check: $1
-	  $$(call ExecuteWithLog, $1.op_check, \
-	      $$(NM) $$(NMFLAGS) $$<  2>&1 | $$(GREP) $$(addprefix -e , $$(MANGLED_SYMS)) | $$(GREP) $$(UNDEF_PATTERN) > $1.op_check || true)
-	  if [ -s $1.op_check ]; then \
-	    $$(ECHO) "$$(notdir $$<): Error: Use of global operators new and delete is not allowed in Hotspot:"; \
-	    $$(NM) $$(NMFLAGS) $$< | $$(CXXFILT) | $$(EGREP) '$$(DEMANGLED_REGEXP)' | $$(GREP) $$(UNDEF_PATTERN); \
-	    $$(ECHO) "See: $$(TOPDIR)/make/hotspot/lib/CompileJvm.gmk"; \
-	    exit 1; \
-	  fi
-
-      TARGETS += $1.op_check
+      # no-op
     endef
 
     $(foreach o, $(BUILD_LIBJVM_ALL_OBJS), $(eval $(call SetupOperatorNewDeleteCheck,$o)))

@@ -8,11 +8,11 @@
         @font-face {
             font-family: 'unscii';
             src: url('unscii-8.woff') format('woff');
-            font-weight: normal;
+            font-weight: lighter;
             font-style: normal;
             font-display: swap;
         }
-        html, body {
+        * {
             font-family: 'unscii';
         }
     </style>
@@ -21,8 +21,27 @@
     <h2>JVM.js</h2>
     <p>Experimental web port of OpenJDK 25 Zero Variant.</p>
     <script src="jvm.js"></script>
+    <select id="test"></select><button id="runtest">run</button>
     <script>
-        
+        (async function () {
+            const JVM = await initJVM();
+            globalThis.JVM = JVM;
+            const testSelector = document.querySelector("#test");
+            const testDB = (await (await fetch("tests.txt")).text()).split("\n").map(x => x.trim()).filter(x => x && !x.startsWith("#"));
+            testDB.reverse();
+            testDB.forEach(v => {
+                const opt = new Option(v, v);
+                testSelector.appendChild(opt);
+            })
+            document.querySelector("#runtest").addEventListener("click", async ()=>{
+                const MainClass = new Uint8Array(await (await fetch(`compiled_tests/${testSelector.value}.class`)).arrayBuffer());
+                console.log(MainClass);
+                JVM.FS.writeFile("/home/web_user/Main.class", MainClass);
+                console.log(JVM._main());
+            });
+        })();
+
+
     </script>
 </body>
 </html>

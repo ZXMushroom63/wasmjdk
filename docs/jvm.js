@@ -3,7 +3,7 @@
 
 // Single threaded MINIMAL_RUNTIME programs do not need access to
 // document.currentScript, so a simple export declaration is enough.
-var JVM = (() => {
+var initJVM = (() => {
   // When MODULARIZE this JS may be executed later,
   // after document.currentScript is gone, so we save it.
   // In EXPORT_ES6 mode we can just use 'import.meta.url'.
@@ -275,15 +275,6 @@ var EXITSTATUS;
 
 // We used to include malloc/free by default in the past. Show a helpful error in
 // builds with assertions.
-function _malloc() {
-  abort("malloc() called but not included in the build - add `_malloc` to EXPORTED_FUNCTIONS");
-}
-
-function _free() {
-  // Show a helpful error since we used to include free by default in the past.
-  abort("free() called but not included in the build - add `_free` to EXPORTED_FUNCTIONS");
-}
-
 /**
  * Indicates whether filename is delivered via file protocol (as opposed to http/https)
  * @noinline
@@ -7155,15 +7146,19 @@ function ffi_prep_closure_loc_js(closure, cif, fun, user_data, codeloc) {
 }
 
 // Imports from the Wasm binary.
+var _JNI_CreateJavaVM = Module["_JNI_CreateJavaVM"] = makeInvalidEarlyAccess("_JNI_CreateJavaVM");
+
 var _main = Module["_main"] = makeInvalidEarlyAccess("_main");
 
 var _fflush = makeInvalidEarlyAccess("_fflush");
 
+var _free = Module["_free"] = makeInvalidEarlyAccess("_free");
+
 var _JNI_GetDefaultJavaVMInitArgs = Module["_JNI_GetDefaultJavaVMInitArgs"] = makeInvalidEarlyAccess("_JNI_GetDefaultJavaVMInitArgs");
 
-var _JNI_CreateJavaVM = Module["_JNI_CreateJavaVM"] = makeInvalidEarlyAccess("_JNI_CreateJavaVM");
-
 var _JNI_GetCreatedJavaVMs = Module["_JNI_GetCreatedJavaVMs"] = makeInvalidEarlyAccess("_JNI_GetCreatedJavaVMs");
+
+var _malloc = Module["_malloc"] = makeInvalidEarlyAccess("_malloc");
 
 var _pthread_self = makeInvalidEarlyAccess("_pthread_self");
 
@@ -7208,11 +7203,13 @@ var __emscripten_stack_restore = makeInvalidEarlyAccess("__emscripten_stack_rest
 var __emscripten_stack_alloc = makeInvalidEarlyAccess("__emscripten_stack_alloc");
 
 function assignWasmExports(wasmExports) {
+  Module["_JNI_CreateJavaVM"] = _JNI_CreateJavaVM = createExportWrapper("JNI_CreateJavaVM", 3);
   Module["_main"] = _main = createExportWrapper("main", 2);
   _fflush = createExportWrapper("fflush", 1);
+  Module["_free"] = _free = createExportWrapper("free", 1);
   Module["_JNI_GetDefaultJavaVMInitArgs"] = _JNI_GetDefaultJavaVMInitArgs = createExportWrapper("JNI_GetDefaultJavaVMInitArgs", 1);
-  Module["_JNI_CreateJavaVM"] = _JNI_CreateJavaVM = createExportWrapper("JNI_CreateJavaVM", 3);
   Module["_JNI_GetCreatedJavaVMs"] = _JNI_GetCreatedJavaVMs = createExportWrapper("JNI_GetCreatedJavaVMs", 3);
+  Module["_malloc"] = _malloc = createExportWrapper("malloc", 1);
   _pthread_self = wasmExports["pthread_self"];
   _emscripten_stack_get_current = wasmExports["emscripten_stack_get_current"];
   __emscripten_tls_init = createExportWrapper("_emscripten_tls_init", 0);
@@ -7481,12 +7478,12 @@ for (const prop of Object.keys(Module)) {
 
 // Export using a UMD style export, or ES6 exports if selected
 if (typeof exports === 'object' && typeof module === 'object') {
-  module.exports = JVM;
+  module.exports = initJVM;
   // This default export looks redundant, but it allows TS to import this
   // commonjs style module.
-  module.exports.default = JVM;
+  module.exports.default = initJVM;
 } else if (typeof define === 'function' && define['amd'])
-  define([], () => JVM);
+  define([], () => initJVM);
 
 // Create code for detecting if we are running in a pthread.
 // Normally this detection is done when the module is itself run but
@@ -7497,5 +7494,5 @@ var isPthread = globalThis.self?.name?.startsWith('em-pthread');
 var isNode = typeof process == 'object' && process.versions?.node && process.type != 'renderer';
 if (isNode) isPthread = require('worker_threads').workerData === 'em-pthread'
 
-isPthread && JVM();
+isPthread && initJVM();
 

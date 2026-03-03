@@ -25,7 +25,7 @@ int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
 
 int __sched_cpucount(size_t setsize, const cpu_set_t *set) {
     int count = 0;
-    for (int i = 0; i < MAX_CPUS * setsize; i++) {
+    for (size_t i = 0; i < MAX_CPUS * setsize; i++) {
         if (CPU_ISSET(i, set)) count++;
     }
     return count;
