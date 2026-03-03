@@ -130,6 +130,8 @@
   #include <sched.h>
 #endif
 
+#include <shim/sched.h>
+
 // if RUSAGE_THREAD for getrusage() has not been defined, do it here. The code calling
 // getrusage() is prepared to handle the associated failure.
 #ifndef RUSAGE_THREAD
@@ -1540,19 +1542,20 @@ const char* os::get_temp_directory() { return "/tmp"; }
 
 // check if addr is inside libjvm.so
 bool os::address_is_in_vm(address addr) {
-  static address libjvm_base_addr;
-  Dl_info dlinfo;
+  //EMPATCH
+  // static address libjvm_base_addr;
+  // Dl_info dlinfo;
 
-  if (libjvm_base_addr == nullptr) {
-    if (dladdr(CAST_FROM_FN_PTR(void *, os::address_is_in_vm), &dlinfo) != 0) {
-      libjvm_base_addr = (address)dlinfo.dli_fbase;
-    }
-    assert(libjvm_base_addr !=nullptr, "Cannot obtain base address for libjvm");
-  }
+  // if (libjvm_base_addr == nullptr) {
+  //   if (dladdr(CAST_FROM_FN_PTR(void *, os::address_is_in_vm), &dlinfo) != 0) {
+  //     libjvm_base_addr = (address)dlinfo.dli_fbase;
+  //   }
+  //   assert(libjvm_base_addr !=nullptr, "Cannot obtain base address for libjvm");
+  // }
 
-  if (dladdr((void *)addr, &dlinfo) != 0) {
-    if (libjvm_base_addr == (address)dlinfo.dli_fbase) return true;
-  }
+  // if (dladdr((void *)addr, &dlinfo) != 0) {
+  //   if (libjvm_base_addr == (address)dlinfo.dli_fbase) return true;
+  // }
 
   return false;
 }
@@ -1563,32 +1566,33 @@ void os::prepare_native_symbols() {
 bool os::dll_address_to_function_name(address addr, char *buf,
                                       int buflen, int *offset,
                                       bool demangle) {
-  // buf is not optional, but offset is optional
-  assert(buf != nullptr, "sanity check");
+  return false; //EMPATCh
+  // // buf is not optional, but offset is optional
+  // assert(buf != nullptr, "sanity check");
 
-  Dl_info dlinfo;
+  // Dl_info dlinfo;
 
-  if (dladdr((void*)addr, &dlinfo) != 0) {
-    // see if we have a matching symbol
-    if (dlinfo.dli_saddr != nullptr && dlinfo.dli_sname != nullptr) {
-      if (!(demangle && Decoder::demangle(dlinfo.dli_sname, buf, buflen))) {
-        jio_snprintf(buf, buflen, "%s", dlinfo.dli_sname);
-      }
-      if (offset != nullptr) *offset = pointer_delta_as_int(addr, (address)dlinfo.dli_saddr);
-      return true;
-    }
-    // no matching symbol so try for just file info
-    if (dlinfo.dli_fname != nullptr && dlinfo.dli_fbase != nullptr) {
-      if (Decoder::decode((address)(addr - (address)dlinfo.dli_fbase),
-                          buf, buflen, offset, dlinfo.dli_fname, demangle)) {
-        return true;
-      }
-    }
-  }
+  // if (dladdr((void*)addr, &dlinfo) != 0) {
+  //   // see if we have a matching symbol
+  //   if (dlinfo.dli_saddr != nullptr && dlinfo.dli_sname != nullptr) {
+  //     if (!(demangle && Decoder::demangle(dlinfo.dli_sname, buf, buflen))) {
+  //       jio_snprintf(buf, buflen, "%s", dlinfo.dli_sname);
+  //     }
+  //     if (offset != nullptr) *offset = pointer_delta_as_int(addr, (address)dlinfo.dli_saddr);
+  //     return true;
+  //   }
+  //   // no matching symbol so try for just file info
+  //   if (dlinfo.dli_fname != nullptr && dlinfo.dli_fbase != nullptr) {
+  //     if (Decoder::decode((address)(addr - (address)dlinfo.dli_fbase),
+  //                         buf, buflen, offset, dlinfo.dli_fname, demangle)) {
+  //       return true;
+  //     }
+  //   }
+  // }
 
-  buf[0] = '\0';
-  if (offset != nullptr) *offset = -1;
-  return false;
+  // buf[0] = '\0';
+  // if (offset != nullptr) *offset = -1;
+  // return false;
 }
 
 bool os::dll_address_to_library_name(address addr, char* buf,
@@ -2009,15 +2013,16 @@ void * os::Linux::dll_load_in_vmthread(const char *filename, char *ebuf,
 }
 
 const char* os::Linux::dll_path(void* lib) {
-  struct link_map *lmap;
-  const char* l_path = nullptr;
-  assert(lib != nullptr, "dll_path parameter must not be null");
+  return "\0"; //EMPATCH
+  // struct link_map *lmap;
+  // const char* l_path = nullptr;
+  // assert(lib != nullptr, "dll_path parameter must not be null");
 
-  int res_dli = ::dlinfo(lib, RTLD_DI_LINKMAP, &lmap);
-  if (res_dli == 0) {
-    l_path = lmap->l_name;
-  }
-  return l_path;
+  // int res_dli = ::dlinfo(lib, RTLD_DI_LINKMAP, &lmap);
+  // if (res_dli == 0) {
+  //   l_path = lmap->l_name;
+  // }
+  // return l_path;
 }
 
 static unsigned count_newlines(const char* s) {
@@ -4741,14 +4746,15 @@ jint os::init_2(void) {
 #ifndef CPU_COUNT
 
 static int _cpu_count(const cpu_set_t* cpus) {
-  int count = 0;
-  // only look up to the number of configured processors
-  for (int i = 0; i < os::processor_count(); i++) {
-    if (CPU_ISSET(i, cpus)) {
-      count++;
-    }
-  }
-  return count;
+  return 4; //EMPATCH
+  // int count = 0;
+  // // only look up to the number of configured processors
+  // for (int i = 0; i < os::processor_count(); i++) {
+  //   if (CPU_ISSET(i, cpus)) {
+  //     count++;
+  //   }
+  // }
+  // return count;
 }
 
 #define CPU_COUNT(cpus) _cpu_count(cpus)

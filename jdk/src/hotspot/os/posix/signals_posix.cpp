@@ -48,6 +48,7 @@
 #include "utilities/vmError.hpp"
 
 #include <signal.h>
+#include <shim/signal.h>
 
 #define SEGV_BNDERR_value 3
 
