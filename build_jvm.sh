@@ -13,13 +13,14 @@ export AR=$EMTOOLCHAIN"/emar"
 export STRIP=true
 export NM=$EMTOOLCHAIN"/emnm"
 export INCL="-I"$SHIM_INCLUDES" -I"$LIBFFI_BUILD"/include";
-export CFLAGS="-O0 -g -gsource-map -fPIC -fvisibility=default -Wno-macro-redefined -Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument -sMAIN_MODULE=1 -sRELOCATABLE=1 "$INCL
+export CFLAGS="-O0 -g -gseparate-dwarf -gsource-map -fPIC -fvisibility=default -Wno-macro-redefined -Wno-undef -Wno-format -Wno-format-security -Wno-unused -Wno-unused-private-field -Wno-missing-braces -Wno-unused-function -Wno-bitwise-instead-of-logical -Wno-deprecated-declarations -Wno-unused-command-line-argument -sMAIN_MODULE=1 -sRELOCATABLE=1 "$INCL
 export CXXFLAGS=$CFLAGS
 export LDFLAGS="-sRELOCATABLE=1 -Wno-unused-command-line-argument -sMAIN_MODULE=1 -fPIC -fvisibility=default -sERROR_ON_UNDEFINED_SYMBOLS=0 "$EXPOSE" --no-entry "
 export PRECOMPILED_HEADERS_AVAILABLE=false
 export BUILD_JDK=$(readlink -f $(dirname $(which java))"/../../..")
 export EXTEXE="yes"
 export OBJCOPY=true
+export STRIP_SYMBOLS="false"
 # if still broken, remove libffi to configure, and bypass the error message
 # and instead just manually link to it using LDFLAGS and CFLAGS
 if [ "$1" = "config" ]; then
@@ -42,7 +43,7 @@ if [ "$1" = "config" ]; then
     --enable-precompiled-headers=no --disable-warnings-as-errors \
     --with-extra-cflags="$CFLAGS" --with-extra-cxxflags="$CFLAGS" --with-extra-ldflags="$LDFLAGS" \
     --with-build-jdk="$BUILD_JDK" --with-boot-jdk="$BUILD_JDK" \
-    AR=$AR STRIP=$STRIP CXX=$CXX CC=$CC NM=$NM ar=$AR strip=$STRIP cxx=$CXX cc=$CC nm=$NM LD=$CC
+    AR=$AR STRIP=$STRIP CXX=$CXX CC=$CC NM=$NM ar=$AR strip=$STRIP cxx=$CXX cc=$CC nm=$NM LD=$CC STRIP_SYMBOLS=$STRIP_SYMBOLS
 else
   cp libffi/wasm_build/lib/libffi.a libffi/wasm_build/lib/libffi.so.0
   cd jdk

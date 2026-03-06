@@ -4,7 +4,7 @@ export EMCACHE=$(pwd)"/emcache"
 cd ../docs
 rm -rf *
 echo $(pwd)
-emcc ../runner/main.cpp ../wasmjdk_build/lib/libjvm.a -pthread -I../wasmjdk_build/include/ -I../wasmjdk_build/include/linux/ -o jvm.js $(cat ../export_flags) -g4 -O0 -gsource-map \
+emcc ../runner/main.cpp ../wasmjdk_build/lib/libjvm.a -pthread -I../wasmjdk_build/include/ -I../wasmjdk_build/include/linux/ -o jvm.js $(cat ../export_flags) -g4 -O0 -gsource-map -gseparate-dwarf -sINVOKE_RUN=0 -fdebug-compilation-dir='.' -sDEBUG_LEVEL=3 --emit-symbol-map -sSTRIP_METADATA=0 --profiling-funcs -fstandalone-debug -sSEPARATE_DWARF_URL="jvm.wasm.debug.wasm" \
 -s MODULARIZE=1 -s EXPORT_NAME='initJVM' \
 -s ALLOW_MEMORY_GROWTH=1
 
